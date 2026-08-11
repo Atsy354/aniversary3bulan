@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Kamu ❤️</title>
+<meta name="description" content="A little story for our 3rd month anniversary.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap');
+:root{
+  --bg:#fff8f8; --card:rgba(255,255,255,.82); --ink:#352b2d;
+  --muted:#816f73; --accent:#d85d73; --accent2:#f4b6c2; --line:#f1dce0;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; color:var(--ink);
+  font-family:"DM Sans",system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(244,182,194,.30), transparent 30%),
+    radial-gradient(circle at 90% 30%, rgba(216,93,115,.12), transparent 28%),
+    linear-gradient(135deg,#fffafa,#fff3f5 50%,#fffafa);
+  overflow-x:hidden;
+}
+body:before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.35;
+  background-image:radial-gradient(rgba(216,93,115,.13) 1px, transparent 1px);
+  background-size:22px 22px;
+}
+.screen{
+  min-height:100svh; display:none; place-items:center; padding:28px 18px;
+  position:relative; z-index:1;
+}
+.screen.active{display:grid; animation:fadeIn .7s ease both}
+.wrap{width:min(720px,100%); text-align:center}
+.eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;color:var(--muted);margin-bottom:16px}
+h1,h2{font-family:"Playfair Display",Georgia,serif; font-weight:600; margin:0 0 16px}
+h1{font-size:clamp(2.7rem,10vw,5rem); line-height:1.05}
+h2{font-size:clamp(2rem,7vw,3.2rem)}
+p{line-height:1.8}
+.lead{font-size:1.03rem;color:var(--muted);max-width:580px;margin:0 auto 28px}
+.card{
+  background:var(--card); border:1px solid rgba(241,220,224,.9);
+  box-shadow:0 18px 60px rgba(96,44,54,.10);
+  border-radius:28px; padding:34px 24px; backdrop-filter:blur(12px);
+}
+.btn{
+  border:0; cursor:pointer; border-radius:999px; padding:14px 23px;
+  font:600 15px "DM Sans",sans-serif; transition:.2s ease;
+  background:var(--accent); color:white; box-shadow:0 10px 25px rgba(216,93,115,.25);
+}
+.btn:hover{transform:translateY(-2px); box-shadow:0 14px 30px rgba(216,93,115,.30)}
+.btn.secondary{background:white;color:var(--accent);border:1px solid var(--line);box-shadow:none}
+.choices{display:grid;gap:12px;margin-top:22px}
+.choice{
+  width:100%; padding:16px 18px; border-radius:18px; border:1px solid var(--line);
+  background:white; color:var(--ink); cursor:pointer; font:500 15px "DM Sans";
+  text-align:left; transition:.2s ease;
+}
+.choice:hover{border-color:var(--accent2); transform:translateY(-1px)}
+.choice.selected{background:#fff0f3;border-color:var(--accent);color:#b33f57}
+.feedback{min-height:70px;display:flex;align-items:center;justify-content:center;color:var(--muted);margin:18px 0 0}
+textarea{
+  width:100%; min-height:140px; resize:vertical; border:1px solid var(--line);
+  border-radius:20px; padding:17px; font:15px "DM Sans"; color:var(--ink);
+  outline:none; background:#fff;
+}
+textarea:focus{border-color:var(--accent2);box-shadow:0 0 0 4px rgba(244,182,194,.18)}
+.hidden{display:none!important}
+.photo-frame{
+  width:min(520px,100%); margin:18px auto 28px; border-radius:28px; overflow:hidden;
+  box-shadow:0 25px 70px rgba(50,20,30,.18); background:#eee;
+}
+.photo-frame img{display:block;width:100%;height:auto;max-height:70svh;object-fit:cover}
+.photo-stack{position:relative; width:min(560px,100%); height:min(72svh,620px); margin:0 auto 24px}
+.photo-stack img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  border-radius:28px; box-shadow:0 25px 70px rgba(50,20,30,.18);
+  opacity:0; transform:scale(.98) rotate(var(--rot,0deg)); transition:opacity 1s ease, transform 1s ease;
+}
+.photo-stack img.show{opacity:1;transform:scale(1) rotate(var(--rot,0deg))}
+.caption{font-family:"Playfair Display",Georgia,serif;font-size:1.5rem;margin-top:16px}
+.heart{font-size:2.2rem;animation:pulse 1.7s infinite}
+.progress{display:flex;justify-content:center;gap:7px;margin-bottom:24px}
+.dot{width:8px;height:8px;border-radius:50%;background:#efd9dd}
+.dot.on{background:var(--accent)}
+.small{font-size:.86rem;color:var(--muted)}
+.final-text{max-width:600px;margin:0 auto}
+.quote{font-family:"Playfair Display",Georgia,serif;font-size:1.25rem;line-height:1.8}
+.memories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+.memories img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px}
+.music{
+  display:inline-flex;align-items:center;gap:9px;margin-top:18px;
+  background:white;border:1px solid var(--line);color:var(--accent);padding:11px 16px;border-radius:999px;
+  font:600 13px "DM Sans"; cursor:pointer;
+}
+.music-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px #ffe8ed}
+#hearts{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.float-heart{position:absolute;bottom:-30px;font-size:18px;animation:floatUp 4.5s linear forwards;opacity:.8}
+#answers{font-size:.9rem;color:var(--muted);margin-top:20px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pulse{50%{transform:scale(1.12)}}
+@keyframes floatUp{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+@media(max-width:600px){.card{padding:28px 17px;border-radius:24px}.memories{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div id="hearts"></div>
+
+<section class="screen active" id="s0">
+  <div class="wrap">
+    <div class="heart">❤️</div>
+    <div class="eyebrow">11.05.2026 — our little story</div>
+    <h1>Hai, Sayang..</h1>
+    <p class="lead">Sebelum sampai ke sesuatu yang ingin aku tunjukkan,<br>aku mau mengajak kamu mengingat sedikit cerita kita.</p>
+    <button class="btn" onclick="go(1)">Mulai ❤️</button>
+  </div>
+</section>
+
+<section class="screen" id="s1">
+  <div class="wrap">
+    <div class="progress"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="card">
+      <div class="eyebrow">Pertanyaan 1</div>
+      <h2>Masih ingat bagaimana cerita kita dimulai?</h2>
+      <div class="choices" data-q="q1">
+        <button class="choice" onclick="answerChoice(1,this)">Masih banget ❤️</button>
+        <button class="choice" onclick="answerChoice(1,this)">Ingat sedikit 😭</button>
+        <button class="choice" onclick="answerChoice(1,this)">Aku pura-pura lupa 😌</button>
+      </div>
+      <div class="feedback" id="fb1"></div>
+      <button class="btn hidden" id="next1" onclick="go(2)">Lanjut ❤️</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="s2">
+  <div class="wrap">
+    <div class="progress"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="card">
+      <div class="eyebrow">Pertanyaan 2</div>
+      <h2>Selama 3 bulan ini, menurut kamu siapa yang paling sering bikin kangen duluan?</h2>
+      <div class="choices" data-q="q2">
+        <button class="choice" onclick="answerChoice(2,this)">Aku</button>
+        <button class="choice" onclick="answerChoice(2,this)">Kamu</button>
+        <button class="choice" onclick="answerChoice(2,this)">Dua-duanya 🫶</button>
+        <button class="choice" onclick="answerChoice(2,this)">Jelas kamu 😌</button>
+      </div>
+      <div class="feedback" id="fb2"></div>
+      <button class="btn hidden" id="next2" onclick="go(3)">Lanjut ❤️</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="s3">
+  <div class="wrap">
+    <div class="progress"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="card">
+      <div class="eyebrow">Pertanyaan 3</div>
+      <h2>Kalau bisa mengulang satu momen kita selama 3 bulan ini, momen apa yang ingin kamu ulang?</h2>
+      <textarea id="a3" placeholder="Tulis jawabanmu di sini..."></textarea>
+      <div id="save3" style="margin-top:18px"><button class="btn" onclick="submitText(3)">Simpan jawabanku ❤️</button></div>
+      <div class="feedback hidden" id="fb3"></div>
+      <button class="btn hidden" id="next3" onclick="go(4)">Lanjut ❤️</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="s4">
+  <div class="wrap">
+    <div class="progress"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
+    <div class="card">
+      <div class="eyebrow">Pertanyaan 4</div>
+      <h2>Kalau ada satu hal yang ingin kamu pertahankan dari hubungan kita, apa itu?</h2>
+      <textarea id="a4" placeholder="Tulis jawabanmu di sini..."></textarea>
+      <div id="save4" style="margin-top:18px"><button class="btn" onclick="submitText(4)">Simpan jawabanku ❤️</button></div>
+      <div class="feedback hidden" id="fb4"></div>
+      <button class="btn hidden" id="next4" onclick="go(5)">Satu pertanyaan lagi ❤️</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="s5">
+  <div class="wrap">
+    <div class="card">
+      <div class="heart">❤️</div>
+      <div class="eyebrow">Pertanyaan terakhir</div>
+      <h2>Setelah semua cerita yang kita lewati selama 3 bulan ini...</h2>
+      <p class="quote">Kamu masih mau lanjut cerita ini sama aku?</p>
+      <button class="btn" onclick="reveal()">MAU ❤️</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="s6">
+  <div class="wrap">
+    <div class="eyebrow">A little piece of us</div>
+    <div class="photo-frame">
+      <img id="heroPhoto" src="photos/foto-01.jpg" alt="Kenangan kita">
+    </div>
+    <div class="caption" id="photoCaption">Tiga bulan, banyak cerita. ❤️</div>
+    <button class="music" onclick="toggleMusic()">● <span id="musicLabel">Putar Perfect — Ed Sheeran</span></button>
+    <p class="small" id="musicNote">Untuk musik: letakkan file <b>perfect.mp3</b> di folder yang sama dengan website ini.</p>
+    <audio id="audio" preload="none" loop>
+      <source src="perfect.mp3" type="audio/mpeg">
+    </audio>
+    <div class="final-text" style="margin-top:34px">
+      <h2>Happy 3rd Month Anniversary ❤️</h2>
+      <p>11.05.2026 — ∞</p>
+      <p class="quote">Tiga bulan mungkin bukan waktu yang lama,<br>tapi dalam waktu sesingkat ini,<br>kamu sudah menjadi bagian dari banyak hal yang berarti buat aku.</p>
+      <p>Terima kasih sudah hadir,<br>terima kasih sudah bertahan,<br>dan terima kasih sudah memilih aku.</p>
+      <p class="quote">Aku nggak tahu akan sejauh apa cerita kita nanti,<br>tapi aku ingin terus menulis cerita itu sama kamu.</p>
+      <p style="font-family:'Playfair Display',Georgia,serif;font-size:1.5rem">I love you. ❤️</p>
+      <p>— aku</p>
+      <div id="answers"></div>
+    </div>
+    <div class="memories">
+      <img src="photos/foto-08.jpg" alt="Kenangan">
+      <img src="photos/foto-09.jpg" alt="Kenangan">
+      <img src="photos/foto-10.JPG" alt="Kenangan">
+    </div>
+  </div>
+</section>
+
+<script>
+const photos = [
+  ["photos/foto-01.jpg","Tiga bulan, banyak cerita. ❤️"],
+  ["photos/foto-02.png","Dari hal-hal sederhana..."],
+  ["photos/foto-03.jpg","...sampai momen yang bikin kita tertawa."],
+  ["photos/foto-04.jpg","Aku suka semua versi cerita kita."],
+  ["photos/foto-05.jpg","Dan aku suka ketika ceritanya ada kamu."],
+  ["photos/foto-06.jpg","Semoga masih banyak halaman setelah ini."],
+  ["photos/foto-07.jpg","Untuk kita. ❤️"]
+];
+let current=0;
+let answers={q1:"",q2:"",a3:"",a4:""};
+
+function go(n){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById("s"+n).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function answerChoice(q,el){
+  el.parentElement.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));
+  el.classList.add("selected");
+  answers["q"+q]=el.textContent.trim();
+  const msg = q===1
+    ? "Hehe... ternyata kamu masih ingat cerita kecil kita. ❤️"
+    : "Entah siapa yang lebih sering kangen... tapi aku selalu senang setiap kali bisa bertemu kamu. ❤️";
+  document.getElementById("fb"+q).textContent=msg;
+  document.getElementById("next"+q).classList.remove("hidden");
+}
+function submitText(q){
+  const el=document.getElementById("a"+q);
+  const val=el.value.trim();
+  if(!val){ el.focus(); return; }
+
+  answers["a"+q]=val;
+
+  // Setelah jawaban disimpan, area isian dan tombol simpan disembunyikan.
+  el.classList.add("hidden");
+  document.getElementById("save"+q).classList.add("hidden");
+
+  // Hanya tampilkan konfirmasi bahwa jawaban sudah disimpan.
+  const fb=document.getElementById("fb"+q);
+  fb.classList.remove("hidden");
+  fb.innerHTML="Jawabanmu sudah aku simpan. ❤️";
+
+  document.getElementById("next"+q).classList.remove("hidden");
+}
+function reveal(){
+  go(6);
+  launchHearts();
+  startSlideshow();
+}
+function startSlideshow(){
+  const img=document.getElementById("heroPhoto");
+  const cap=document.getElementById("photoCaption");
+  img.src=photos[0][0]; cap.textContent=photos[0][1];
+  img.classList.add("show");
+  setInterval(()=>{
+    img.classList.remove("show");
+    setTimeout(()=>{
+      current=(current+1)%photos.length;
+      img.src=photos[current][0];
+      cap.textContent=photos[current][1];
+      img.classList.add("show");
+    },450);
+  },3500);
+}
+function launchHearts(){
+  const box=document.getElementById("hearts");
+  for(let i=0;i<26;i++){
+    const h=document.createElement("div");
+    h.className="float-heart";
+    h.textContent=["❤","♡","💕","💗"][Math.floor(Math.random()*4)];
+    h.style.left=(Math.random()*100)+"%";
+    h.style.animationDelay=(Math.random()*2)+"s";
+    h.style.fontSize=(14+Math.random()*18)+"px";
+    box.appendChild(h);
+    setTimeout(()=>h.remove(),7000);
+  }
+}
+function toggleMusic(){
+  const audio=document.getElementById("audio");
+  const label=document.getElementById("musicLabel");
+  audio.play().then(()=>{label.textContent="Perfect sedang diputar ❤️";})
+  .catch(()=>{label.textContent="Tambahkan perfect.mp3 lalu tekan lagi";});
+}
+</script>
+</body>
+</html>
