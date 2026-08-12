@@ -437,17 +437,38 @@
     }
 
     .float-heart {
-      position: absolute;
+  position: absolute;
+  bottom: -40px;
+  font-size: 18px;
+  opacity: 0;
+  animation: floatUp 6s linear forwards;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 5px rgba(216, 93, 115, .12));
+}
 
-      bottom: -30px;
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg) scale(.8);
+    opacity: 0;
+  }
 
-      font-size: 18px;
+  10% {
+    opacity: .75;
+  }
 
-      animation:
-        floatUp 4.5s linear forwards;
+  50% {
+    opacity: .8;
+  }
 
-      opacity: .8;
-    }
+  90% {
+    opacity: .45;
+  }
+
+  100% {
+    transform: translateY(-115vh) translateX(var(--drift)) rotate(25deg) scale(1.15);
+    opacity: 0;
+  }
+}
 
     /* =========================
        ANSWERS
@@ -1520,94 +1541,57 @@ function reveal(){
        FLOATING HEARTS
     ========================= */
 
-    function launchHearts() {
+   let heartInterval = null;
 
-      const box =
-        document.getElementById(
-          "hearts"
-        );
+function launchHearts() {
+  const box = document.getElementById("hearts");
 
+  // Jangan membuat interval lebih dari satu kali
+  if (heartInterval) return;
 
-      if (!box) {
+  function createHeart() {
+    const h = document.createElement("div");
 
-        return;
+    h.className = "float-heart";
 
-      }
+    // Variasi bentuk love
+    const hearts = ["❤", "♡", "💕", "💗", "💖", "💓"];
+    h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
 
+    // Posisi horizontal random
+    h.style.left = Math.random() * 100 + "%";
 
-      for (
-        let i = 0;
-        i < 26;
-        i++
-      ) {
+    // Ukuran random
+    h.style.fontSize = 14 + Math.random() * 18 + "px";
 
+    // Kecepatan random
+    const duration = 5 + Math.random() * 3;
+    h.style.animationDuration = duration + "s";
 
-        const heart =
-          document.createElement(
-            "div"
-          );
+    // Gerakan sedikit ke kiri/kanan
+    h.style.setProperty(
+      "--drift",
+      (Math.random() * 120 - 60) + "px"
+    );
 
+    box.appendChild(h);
 
-        heart.className =
-          "float-heart";
+    // Hapus setelah selesai supaya DOM tidak penuh
+    setTimeout(() => {
+      h.remove();
+    }, (duration + 1) * 1000);
+  }
 
+  // Buat beberapa love pertama
+  for (let i = 0; i < 12; i++) {
+    setTimeout(createHeart, i * 350);
+  }
 
-        const heartTypes = [
-          "❤",
-          "♡",
-          "💕",
-          "💗"
-        ];
-
-
-        heart.textContent =
-          heartTypes[
-            Math.floor(
-              Math.random() *
-              heartTypes.length
-            )
-          ];
-
-
-        heart.style.left =
-          (
-            Math.random() *
-            100
-          ) + "%";
-
-
-        heart.style.animationDelay =
-          (
-            Math.random() *
-            2
-          ) + "s";
-
-
-        heart.style.fontSize =
-          (
-            14 +
-            Math.random() *
-            18
-          ) + "px";
-
-
-        box.appendChild(
-          heart
-        );
-
-
-        setTimeout(
-          function() {
-
-            heart.remove();
-
-          },
-          7000
-        );
-
-      }
-
-    }
+  // Setelah itu terus muncul
+  heartInterval = setInterval(() => {
+    createHeart();
+  }, 450);
+}
 
 
     /* =========================
