@@ -236,27 +236,57 @@ function go(n){
   document.getElementById("s"+n).classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
 }
-function answerChoice(q,el){
-  el.parentElement.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));
+function answerChoice(q, el) {
+  // Hilangkan tanda selected dari pilihan lainnya
+  el.parentElement.querySelectorAll(".choice").forEach(function(choice) {
+    choice.classList.remove("selected");
+  });
+
+  // Tandai pilihan yang dipilih
   el.classList.add("selected");
-  answers["q"+q]=el.textContent.trim();
 
-  let msg;
+  // Ambil teks pilihan
+  const selectedText = el.textContent.trim();
 
-  if(q === 1){
-    if(answers.q1 === "Masih banget ❤️"){
+  // Simpan jawaban
+  answers["q" + q] = selectedText;
+
+  let msg = "";
+
+  // Feedback khusus Pertanyaan 1
+  if (q === 1) {
+
+    if (selectedText.includes("Masih banget")) {
       msg = "Hehe... ternyata kamu masih ingat cerita kecil kita. ❤️";
-    } 
-    else if(answers.q1 === "Ingat sedikit 😭"){
+
+    } else if (selectedText.includes("Ingat sedikit")) {
       msg = "Gapapa... aku senang kamu masih ingat sedikit cerita kecil kita :)";
-    } 
-    else if(answers.q1 === "Udah lupa 😌"){
+
+    } else if (selectedText.includes("Udah lupa")) {
       msg = "Sedih... kamu udah lupa sama cerita kecil kita :(";
     }
-  } 
-  else {
+
+  }
+
+  // Feedback Pertanyaan 2
+  else if (q === 2) {
     msg = "Entah siapa yang lebih sering kangen... tapi aku selalu senang setiap kali bisa bertemu kamu. ❤️";
   }
+
+  // Tampilkan feedback
+  const feedback = document.getElementById("fb" + q);
+
+  if (feedback) {
+    feedback.textContent = msg;
+  }
+
+  // Tampilkan tombol lanjut
+  const nextButton = document.getElementById("next" + q);
+
+  if (nextButton) {
+    nextButton.classList.remove("hidden");
+  }
+}
 
   document.getElementById("fb"+q).textContent = msg;
   document.getElementById("next"+q).classList.remove("hidden");
