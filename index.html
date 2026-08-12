@@ -126,7 +126,7 @@ textarea:focus{border-color:var(--accent2);box-shadow:0 0 0 4px rgba(244,182,194
       <div class="choices" data-q="q1">
         <button class="choice" onclick="answerChoice(1,this)">Masih banget ❤️</button>
         <button class="choice" onclick="answerChoice(1,this)">Ingat sedikit 😭</button>
-        <button class="choice" onclick="answerChoice(1,this)">Aku pura-pura lupa 😌</button>
+        <button class="choice" onclick="answerChoice(1,this)">Udah lupa 😌</button>
       </div>
       <div class="feedback" id="fb1"></div>
       <button class="btn hidden" id="next1" onclick="go(2)">Lanjut ❤️</button>
@@ -144,7 +144,6 @@ textarea:focus{border-color:var(--accent2);box-shadow:0 0 0 4px rgba(244,182,194
         <button class="choice" onclick="answerChoice(2,this)">Aku</button>
         <button class="choice" onclick="answerChoice(2,this)">Kamu</button>
         <button class="choice" onclick="answerChoice(2,this)">Dua-duanya 🫶</button>
-        <button class="choice" onclick="answerChoice(2,this)">Jelas kamu 😌</button>
       </div>
       <div class="feedback" id="fb2"></div>
       <button class="btn hidden" id="next2" onclick="go(3)">Lanjut ❤️</button>
@@ -238,10 +237,25 @@ function answerChoice(q,el){
   el.parentElement.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));
   el.classList.add("selected");
   answers["q"+q]=el.textContent.trim();
-  const msg = q===1
-    ? "Hehe... ternyata kamu masih ingat cerita kecil kita. ❤️"
-    : "Entah siapa yang lebih sering kangen... tapi aku selalu senang setiap kali bisa bertemu kamu. ❤️";
-  document.getElementById("fb"+q).textContent=msg;
+
+  let msg;
+
+  if(q === 1){
+    if(answers.q1 === "Masih banget ❤️"){
+      msg = "Hehe... ternyata kamu masih ingat cerita kecil kita. ❤️";
+    } 
+    else if(answers.q1 === "Ingat sedikit 😭"){
+      msg = "Gapapa... aku senang kamu masih ingat masih sedikit cerita kecil kita :)";
+    } 
+    else if(answers.q1 === "Udah lupa 😌"){
+      msg = "Sedih... kamu udah lupa sama cerita kecil kita :(";
+    }
+  } 
+  else {
+    msg = "Entah siapa yang lebih sering kangen... tapi aku selalu senang setiap kali bisa bertemu kamu. ❤️";
+  }
+
+  document.getElementById("fb"+q).textContent = msg;
   document.getElementById("next"+q).classList.remove("hidden");
 }
 function submitText(q){
