@@ -446,10 +446,72 @@
     ========================= */
 
     #answers {
-      font-size: .9rem;
-      color: var(--muted);
-      margin-top: 20px;
-    }
+  margin-top: 35px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  text-align: left;
+}
+
+.answer-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid #f1dce0;
+  border-radius: 22px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px rgba(96, 44, 54, 0.08);
+  overflow: hidden;
+  animation: answerAppear 0.6s ease both;
+}
+
+.answer-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: var(--accent);
+  border-radius: 22px 0 0 22px;
+}
+
+.answer-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+  margin-bottom: 10px;
+}
+
+.answer-text {
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.7;
+  word-break: break-word;
+}
+
+.answer-heart {
+  margin-left: 4px;
+}
+
+@keyframes answerAppear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* HP tetap nyaman dibaca */
+@media (max-width: 600px) {
+  #answers {
+    grid-template-columns: 1fr;
+  }
+}
 
     /* =========================
        ANIMATION
@@ -1384,18 +1446,12 @@
     /* =========================
        REVEAL
     ========================= */
-
-    function reveal() {
-
-      go(6);
-
-      launchHearts();
-
-      startSlideshow();
-
-      showAnswers();
-
-    }
+function reveal(){
+  go(6);
+  launchHearts();
+  startSlideshow();
+  showAnswers();
+}
 
 
     /* =========================
@@ -1574,58 +1630,51 @@
        TAMPILKAN JAWABAN
     ========================= */
 
-    function showAnswers() {
+   function showAnswers() {
+  const container = document.getElementById("answers");
 
-      const answerBox =
-        document.getElementById(
-          "answers"
-        );
+  if (!container) return;
 
+  container.innerHTML = "";
 
-      if (!answerBox) {
+  // Jawaban Pertanyaan 3
+  if (answers.a3 && answers.a3.trim() !== "") {
+    const card3 = document.createElement("div");
+    card3.className = "answer-card";
 
-        return;
+    const title3 = document.createElement("div");
+    title3.className = "answer-title";
+    title3.innerHTML = "Jawabanmu untuk pertanyaan 3: <span class=\"answer-heart\">❤️</span>";
 
-      }
+    const text3 = document.createElement("div");
+    text3.className = "answer-text";
+    text3.textContent = answers.a3;
 
+    card3.appendChild(title3);
+    card3.appendChild(text3);
 
-      let html = "";
+    container.appendChild(card3);
+  }
 
+  // Jawaban Pertanyaan 4
+  if (answers.a4 && answers.a4.trim() !== "") {
+    const card4 = document.createElement("div");
+    card4.className = "answer-card";
 
-      if (answers.a3) {
+    const title4 = document.createElement("div");
+    title4.className = "answer-title";
+    title4.innerHTML = "Jawabanmu untuk pertanyaan 4: <span class=\"answer-heart\">❤️</span>";
 
-        html +=
-          "<p>" +
-          "<b>Jawabanmu untuk pertanyaan 3:</b>" +
-          "<br>" +
-          escapeHTML(
-            answers.a3
-          ) +
-          "</p>";
+    const text4 = document.createElement("div");
+    text4.className = "answer-text";
+    text4.textContent = answers.a4;
 
-      }
+    card4.appendChild(title4);
+    card4.appendChild(text4);
 
-
-      if (answers.a4) {
-
-        html +=
-          "<p>" +
-          "<b>Jawabanmu untuk pertanyaan 4:</b>" +
-          "<br>" +
-          escapeHTML(
-            answers.a4
-          ) +
-          "</p>";
-
-      }
-
-
-      answerBox.innerHTML =
-        html;
-
-    }
-
-
+    container.appendChild(card4);
+  }
+}
     /* =========================
        AMANKAN TEXT
     ========================= */
